@@ -15,7 +15,7 @@ const mockLibraryGames: Game[] = [
     likes: 28700,
     description:
       'Cozy Italian Vacation Cafe 🍕 No timers, No stress 🤝 cook traditional dishes 🍝 upgrade and customize 🏪 relax and grow your dream cafe',
-    coverUrl: '/assets/games/Game-Screenshot.png',
+    coverUrl: './assets/games/Game-Screenshot.png',
   },
   {
     id: 'winter-burrow',
@@ -26,7 +26,7 @@ const mockLibraryGames: Game[] = [
     likes: 32400,
     description:
       'A cozy woodland survival game about a mouse restoring their childhood burrow. Explore, gather resources, craft, knit warm sweaters, bake pies and meet the locals.',
-    coverUrl: '/assets/games/Game-Screenshot(1).png',
+    coverUrl: './assets/games/Game-Screenshot(1).png',
   },
   {
     id: 'shelve-potions',
@@ -37,7 +37,7 @@ const mockLibraryGames: Game[] = [
     likes: 21300,
     description:
       'Organize 2000+ potions on shelves after the witch’s cats have knocked them over, using clues around an enchanted cellar.',
-    coverUrl: '/assets/games/Game-Screenshot(2).png',
+    coverUrl: './assets/games/Game-Screenshot(2).png',
   },
   {
     id: 'heartopia',
@@ -48,7 +48,7 @@ const mockLibraryGames: Game[] = [
     likes: 46800,
     description:
       'A multiplayer life simulation game crafted for creativity, freedom, and peace. Build your dream home, explore hobbies, and forge warm connections.',
-    coverUrl: '/assets/games/Game-Screenshot(3).png',
+    coverUrl: './assets/games/Game-Screenshot(3).png',
   },
   {
     id: 'palia',
@@ -59,7 +59,7 @@ const mockLibraryGames: Game[] = [
     likes: 89500,
     description:
       'A free-to-play fantasy life sim adventure where you can craft, explore, and create the life and home of your dreams in a vibrant world.',
-    coverUrl: '/assets/games/Game-Screenshot(4).png',
+    coverUrl: './assets/games/Game-Screenshot(4).png',
   },
   {
     id: 'cat-mail',
@@ -70,7 +70,7 @@ const mockLibraryGames: Game[] = [
     likes: 38200,
     description:
       'Run a cozy cat post office. Sort and deliver parcels from the daily boat. At night, the moon reveals hidden truths about packages.',
-    coverUrl: '/assets/games/Game-Screenshot(5).png',
+    coverUrl: './assets/games/Game-Screenshot(5).png',
   },
 ];
 
@@ -114,7 +114,9 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
         .map(
           (game) => `
         <article class="library-card" data-id="${game.id}" style="cursor: pointer;">
-          <div class="library-card__cover" style="background-image: url('${game.coverUrl}')"></div>
+        <div class="library-card__cover">
+        <img src="${game.coverUrl}" alt="${game.title}" class="library-card__cover-img" />
+      </div>
           <div class="library-card__body">
             <div class="library-card__header">
               <div class="library-card__title-group">
