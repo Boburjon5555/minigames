@@ -1,0 +1,238 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.library {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+
+  &__header {
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--color-text, #0f172a);
+    margin-bottom: 0.5rem;
+  }
+
+  &__subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  &__toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  &__filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__filter-btn {
+    @include button-reset;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--color-border, #0f172a);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: transparent;
+    color: var(--color-text, #0f172a);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #f1f5f9;
+    }
+
+    &--active {
+      background-color: #facc15;
+      border-color: #facc15;
+
+      &:hover {
+        background-color: #eab308;
+      }
+    }
+  }
+
+  &__sort {
+    .library__sort-select {
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--color-border, #0f172a);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background-color: #ffffff;
+      cursor: pointer;
+      outline: none;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__page-btn {
+    @include button-reset;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border, #cbd5e1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &--active {
+      background-color: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.library-card {
+  display: flex;
+  background-color: #ffffff;
+  border: 2px solid #0f172a;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
+
+  &__cover {
+    width: 40%;
+    min-height: 180px;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+
+    @media (max-width: 576px) {
+      width: 100%;
+      height: 160px;
+    }
+  }
+
+  &__body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  &__title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  &__badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid #0f172a;
+    border-radius: 12px;
+    text-transform: capitalize;
+  }
+
+  &__price {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #0284c7;
+  }
+
+  &__description {
+    font-size: 0.75rem;
+    color: #64748b;
+    line-height: 1.4;
+    margin: 0.75rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__meta {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  &__rating {
+    color: #eab308;
+  }
+
+  &__likes {
+    color: #ef4444;
+  }
+
+  &__btn-details {
+    @include button-reset;
+    padding: 0.35rem 0.9rem;
+    background-color: #facc15;
+    border: 1.5px solid #0f172a;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+}

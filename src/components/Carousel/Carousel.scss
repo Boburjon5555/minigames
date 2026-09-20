@@ -1,0 +1,166 @@
+@use '../../styles/mixins';
+@use '../../styles/breakpoints' as *;
+
+.carousel {
+  padding-block: var(--space-8);
+
+  &__inner {
+    @include mixins.container;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-5);
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+  }
+
+  &__title-accent {
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent);
+  }
+
+  &__controls {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  &__control-btn {
+    @include mixins.button-reset;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    transition: background-color var(--transition-fast);
+
+    &:focus-visible {
+      @include mixins.focus-ring;
+    }
+
+    &--prev {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+
+      &:hover {
+        background-color: var(--color-surface-alt);
+      }
+    }
+
+    &--next {
+      background-color: var(--color-accent);
+      color: var(--color-primary);
+
+      &:hover {
+        background-color: var(--color-accent-dark);
+      }
+    }
+  }
+
+  &__track {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--space-2);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__card {
+    position: relative;
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+    height: clamp(160px, 40vw, 220px);
+    width: calc(clamp(160px, 40vw, 220px) * var(--card-aspect, 0.78));
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-primary);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+
+    @include from-tablet {
+      height: clamp(200px, 22vw, 260px);
+      width: calc(clamp(200px, 22vw, 260px) * var(--card-aspect, 0.78));
+    }
+
+    @include from-desktop {
+      height: clamp(220px, 20vw, 384px);
+      width: calc(clamp(220px, 20vw, 384px) * var(--card-aspect, 0.78));
+    }
+  }
+
+  &__card--featured {
+    @include from-desktop {
+      border-radius: var(--radius-xl);
+      border-width: 2.5px;
+    }
+  }
+
+  &__cover {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      var(--color-cover-placeholder-start) 0%,
+      var(--color-cover-placeholder-mid) 45%,
+      var(--color-cover-placeholder-end) 100%
+    );
+    background-size: cover;
+    background-position: center;
+  }
+
+  &__card-overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    background: linear-gradient(to top, var(--color-scrim) 0%, transparent 100%);
+  }
+
+  &__card-title {
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    @include mixins.line-clamp(2);
+  }
+
+  &__card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--font-size-xs);
+    color: var(--color-on-scrim-muted);
+  }
+
+  &__rating {
+    color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  &__likes {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+}

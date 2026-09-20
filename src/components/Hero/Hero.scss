@@ -1,0 +1,70 @@
+@use '../../styles/mixins';
+@use '../../styles/breakpoints' as *;
+
+.hero {
+  padding-block: var(--space-6) var(--space-10);
+
+  &__frame {
+    @include mixins.container;
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    background:
+      linear-gradient(
+        120deg,
+        rgba(var(--color-primary-rgb), 0.55) 0%,
+        rgba(var(--color-primary-rgb), 0.15) 60%
+      ),
+      url('/assets/hero-bg.png') center / cover no-repeat;
+
+    @include from-tablet {
+      min-height: 360px;
+    }
+
+    @include from-desktop {
+      min-height: 420px;
+    }
+  }
+
+  &__card {
+    margin: var(--space-6);
+    max-width: 420px;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-start;
+
+    @include from-tablet {
+      margin: var(--space-10);
+      padding: var(--space-8);
+    }
+  }
+
+  &__title {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+
+    @include from-tablet {
+      font-size: var(--font-size-2xl);
+    }
+  }
+
+  &__subtitle {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  &__cta {
+    @include mixins.button-primary;
+    margin-top: var(--space-1);
+  }
+}

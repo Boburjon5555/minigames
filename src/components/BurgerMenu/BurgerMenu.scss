@@ -1,0 +1,56 @@
+@use '../../styles/mixins';
+@use '../../styles/breakpoints' as *;
+
+.burger-menu {
+  position: fixed;
+  inset: var(--header-height-mobile) 0 0 0;
+  z-index: var(--z-overlay);
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--container-padding-mobile);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  transform: translateX(100%);
+  transition: transform var(--transition-base);
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  @include from-tablet {
+    display: none;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  &__nav-link {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+
+    &:focus-visible {
+      @include mixins.focus-ring;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  &__login-btn {
+    @include mixins.button-secondary;
+    width: 100%;
+  }
+
+  &__signup-btn {
+    @include mixins.button-primary;
+    width: 100%;
+  }
+}
