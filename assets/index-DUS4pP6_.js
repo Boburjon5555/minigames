@@ -451,7 +451,9 @@ var g=Object.defineProperty;var _=(a,e,s)=>e in a?g(a,e,{enumerable:!0,configura
     <div class="library__grid" id="library-grid">
       ${H.map(r=>`
         <article class="library-card" data-id="${r.id}" style="cursor: pointer;">
-          <div class="library-card__cover" style="background-image: url('${r.coverUrl}')"></div>
+        <div class="library-card__cover">
+        <img src="${r.coverUrl}" alt="${r.title}" class="library-card__cover-img" />
+      </div>
           <div class="library-card__body">
             <div class="library-card__header">
               <div class="library-card__title-group">
