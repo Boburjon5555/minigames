@@ -114,9 +114,7 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
         .map(
           (game) => `
         <article class="library-card" data-id="${game.id}" style="cursor: pointer;">
-        <div class="library-card__cover">
-        <img src="${game.coverUrl}" alt="${game.title}" class="library-card__cover-img" />
-      </div>
+        <div class="library-card__cover" style="background-image: url('${import.meta.env.BASE_URL}${game.coverUrl.replace(/^\.\//, '')}')"></div>
           <div class="library-card__body">
             <div class="library-card__header">
               <div class="library-card__title-group">
