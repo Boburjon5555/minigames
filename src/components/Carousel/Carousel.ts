@@ -13,7 +13,14 @@ function formatCount(value: number): string {
 }
 
 function createCard(game: Game): string {
-  const coverStyle = game.coverUrl ? ` style="background-image: url('${game.coverUrl}')"` : '';
+  // Vite BASE_URL ni biriktiramiz
+  let coverUrl = game.coverUrl;
+  if (coverUrl) {
+    const cleanPath = coverUrl.replace(/^\.\//, '');
+    coverUrl = `${import.meta.env.BASE_URL}${cleanPath}`;
+  }
+
+  const coverStyle = coverUrl ? ` style="background-image: url('${coverUrl}')"` : '';
   const aspect = game.coverAspectRatio ?? 0.78;
   const showInfo = game.showInfo ?? true;
 
