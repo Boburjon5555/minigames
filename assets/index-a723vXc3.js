@@ -322,7 +322,7 @@ var g=Object.defineProperty;var _=(a,e,s)=>e in a?g(a,e,{enumerable:!0,configura
         </button>
       </div>
     </div>
-  `;const t=L({onAuthOpen:a});t.id="burger-menu";const o=r.querySelector(".header__burger-toggle"),i=r.querySelector('[data-role="login-trigger"]'),n=r.querySelector('[data-role="signup-trigger"]'),c=r.querySelectorAll(".header__nav-link");return c.forEach(l=>{l.addEventListener("click",()=>{c.forEach(d=>d.classList.remove("header__nav-link--active")),l.classList.add("header__nav-link--active")})}),o==null||o.addEventListener("click",()=>{const l=o.getAttribute("aria-expanded")==="true";o.setAttribute("aria-expanded",String(!l)),t.classList.toggle("is-open",!l),document.body.style.overflow=l?"":"hidden"}),i==null||i.addEventListener("click",()=>a("login")),n==null||n.addEventListener("click",()=>a("register")),e.append(r,t),e}function F(a){return a>=1e3?`${(a/1e3).toFixed(1)}K`:String(a)}function A(a){const e=a.coverUrl?` style="background-image: url('${a.coverUrl}')"`:"",s=a.coverAspectRatio??.78,t=a.showInfo??!0?`
+  `;const t=L({onAuthOpen:a});t.id="burger-menu";const o=r.querySelector(".header__burger-toggle"),i=r.querySelector('[data-role="login-trigger"]'),n=r.querySelector('[data-role="signup-trigger"]'),c=r.querySelectorAll(".header__nav-link");return c.forEach(l=>{l.addEventListener("click",()=>{c.forEach(d=>d.classList.remove("header__nav-link--active")),l.classList.add("header__nav-link--active")})}),o==null||o.addEventListener("click",()=>{const l=o.getAttribute("aria-expanded")==="true";o.setAttribute("aria-expanded",String(!l)),t.classList.toggle("is-open",!l),document.body.style.overflow=l?"":"hidden"}),i==null||i.addEventListener("click",()=>a("login")),n==null||n.addEventListener("click",()=>a("register")),e.append(r,t),e}function F(a){return a>=1e3?`${(a/1e3).toFixed(1)}K`:String(a)}function A(a){let e=a.coverUrl;e&&(e=`/minigames/${e.replace(/^\.\//,"")}`);const s=e?` style="background-image: url('${e}')"`:"",r=a.coverAspectRatio??.78,o=a.showInfo??!0?`
       <div class="carousel__card-overlay">
         <h3 class="carousel__card-title">${a.title}</h3>
         <div class="carousel__card-meta">
@@ -331,9 +331,9 @@ var g=Object.defineProperty;var _=(a,e,s)=>e in a?g(a,e,{enumerable:!0,configura
         </div>
       </div>
     `:"";return`
-    <article class="carousel__card${a.featured?" carousel__card--featured":""}" style="--card-aspect: ${s}" data-game-id="${a.id}" aria-label="${a.title}">
-      <div class="carousel__cover"${e} role="presentation"></div>
-      ${t}
+    <article class="carousel__card${a.featured?" carousel__card--featured":""}" style="--card-aspect: ${r}" data-game-id="${a.id}" aria-label="${a.title}">
+      <div class="carousel__cover"${s} role="presentation"></div>
+      ${o}
     </article>
   `}function P({title:a,games:e,onGameClick:s}){const r=document.createElement("section");r.className="carousel",r.setAttribute("aria-label",a),r.innerHTML=`
     <div class="carousel__inner">
