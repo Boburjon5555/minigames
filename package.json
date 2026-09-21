@@ -1,0 +1,41 @@
+{
+  "name": "minigames",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MiniGames - a responsive SPA for browsing and rating mini web-games.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,scss,html}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,scss,html}\"",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.29.1",
+    "gh-pages": "^6.3.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.9",
+    "prettier": "^3.3.3",
+    "sass": "^1.77.8",
+    "typescript": "5.5.4",
+    "vite": "^5.4.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{ts,tsx,scss,html,json,md}": [
+      "prettier --write"
+    ]
+  }
+}

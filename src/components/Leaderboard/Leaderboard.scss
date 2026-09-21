@@ -1,0 +1,118 @@
+@use '../../styles/mixins';
+@use '../../styles/breakpoints' as *;
+
+.leaderboard {
+  padding-block: var(--space-8);
+
+  &__inner {
+    @include mixins.container;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    margin-bottom: var(--space-5);
+  }
+
+  &__title-accent {
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent);
+  }
+
+  &__table-wrapper {
+    overflow-x: auto;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+  }
+
+  &__table {
+    min-width: 640px;
+  }
+
+  &__table th,
+  &__table td {
+    text-align: left;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+  }
+
+  &__table thead th {
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background-color: var(--color-primary);
+  }
+
+  &__table tbody tr:nth-child(even) {
+    background-color: var(--color-surface-alt);
+  }
+
+  &__table tbody tr:nth-child(odd) {
+    background-color: var(--color-surface);
+  }
+
+  &__rank {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+
+    &--top {
+      color: var(--color-accent-dark);
+    }
+  }
+
+  &__player {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  &__player-name {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  &__avatar {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+
+  &__score {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-medium);
+  }
+
+  &__streak {
+    color: var(--color-text);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  &__game-pill {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+  }
+}

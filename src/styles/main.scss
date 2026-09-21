@@ -1,0 +1,7 @@
+@use 'tokens';
+@use 'reset';
+@use 'mixins';
+
+.visually-hidden {
+  @include mixins.visually-hidden;
+}

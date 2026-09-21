@@ -1,0 +1,141 @@
+@use '../../styles/mixins';
+@use '../../styles/breakpoints' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  height: var(--header-height-mobile);
+  display: flex;
+  align-items: center;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+
+  @include from-desktop {
+    height: var(--header-height-desktop);
+  }
+
+  &__inner {
+    @include mixins.container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-md);
+  }
+
+  &__logo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-primary);
+  }
+
+  &__nav {
+    display: none;
+
+    @include from-tablet {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+  }
+
+  &__nav-link {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-text);
+    }
+
+    &:focus-visible {
+      @include mixins.focus-ring;
+    }
+
+    &--active {
+      color: var(--color-text);
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  &__login-btn {
+    @include mixins.button-secondary;
+    display: none;
+    padding-inline: var(--space-5);
+
+    @include from-tablet {
+      display: inline-flex;
+    }
+  }
+
+  &__signup-btn {
+    @include mixins.button-primary;
+    display: none;
+    padding-inline: var(--space-5);
+
+    @include from-tablet {
+      display: inline-flex;
+    }
+  }
+
+  &__burger-toggle {
+    @include mixins.button-reset;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: var(--space-2);
+
+    @include from-tablet {
+      display: none;
+    }
+
+    &:focus-visible {
+      @include mixins.focus-ring;
+    }
+
+    span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background-color: var(--color-text);
+      border-radius: var(--radius-pill);
+      transition:
+        transform var(--transition-fast),
+        opacity var(--transition-fast);
+    }
+
+    &[aria-expanded='true'] {
+      span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      span:nth-child(2) {
+        opacity: 0;
+      }
+
+      span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+  }
+}
