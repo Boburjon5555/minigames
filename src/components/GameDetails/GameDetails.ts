@@ -123,14 +123,28 @@ export class GameDetailsModal {
           </div>
         </div>
 
+        <!-- Comments Section (RSS-QS-2-2-6) -->
         <div class="game-card__section-title">Comments</div>
         <div class="game-card__comments">
-          <div class="game-card__comments-input-group">
+          <form class="game-card__comments-input-group" id="comment-form">
             <div class="game-card__comments-avatar">U</div>
-            <input type="text" class="game-card__comments-input" placeholder="Write a comment..." />
-            <button type="button" class="game-card__comments-submit" aria-label="Send">
+            <textarea class="game-card__comments-input" id="comment-textarea" placeholder="Write a comment..." rows="1"></textarea>
+            <button type="submit" class="game-card__comments-submit" aria-label="Send">
               <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
+          </form>
+
+          <div class="game-card__comments-list">
+            <div class="game-card__comments-card">
+              <div class="game-card__comments-card-header">
+                <span class="game-card__comments-card-author">Sarah_L</span>
+                <span class="game-card__comments-card-date">1 day ago</span>
+              </div>
+              <p class="game-card__comments-card-text">Such a relaxing game! Love the artwork and smooth controls.</p>
+              <button type="button" class="game-card__comments-card-like">
+                <span class="like-icon">♡</span> <span class="like-count">14</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -146,7 +160,6 @@ export class GameDetailsModal {
       if (event.target === this.backdrop) this.close();
     });
 
-    
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && this.backdrop.classList.contains('is-open')) {
         this.close();
@@ -167,8 +180,37 @@ export class GameDetailsModal {
 
     
     const playBtn = this.dialog.querySelector<HTMLButtonElement>('.game-card__btn-play');
-    playBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
+    playBtn?.addEventListener('click', (e) => e.preventDefault());
+
+    
+    const commentForm = this.dialog.querySelector<HTMLFormElement>('#comment-form');
+    commentForm?.addEventListener('submit', (e) => e.preventDefault());
+
+    
+    const textarea = this.dialog.querySelector<HTMLTextAreaElement>('#comment-textarea');
+    textarea?.addEventListener('input', () => {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 88)}px`;
+    });
+
+    
+    const likeBtns = this.dialog.querySelectorAll<HTMLButtonElement>('.game-card__comments-card-like');
+    likeBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const isActive = btn.classList.toggle('is-active');
+        const icon = btn.querySelector('.like-icon');
+        const countSpan = btn.querySelector('.like-count');
+        
+        if (countSpan) {
+          let count = parseInt(countSpan.textContent || '0', 10);
+          count = isActive ? count + 1 : count - 1;
+          countSpan.textContent = String(count);
+        }
+
+        if (icon) {
+          icon.textContent = isActive ? '♥' : '♡';
+        }
+      });
     });
   }
 }
