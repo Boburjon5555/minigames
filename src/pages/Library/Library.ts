@@ -101,7 +101,7 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
       </div>
 
       <div class="library__sort">
-        <select class="library__sort-select">
+        <select class="library__sort-select" aria-label="Sort games">
           <option value="rating">Sort by: Rating ↓</option>
           <option value="likes">Sort by: Popularity ↓</option>
           <option value="name">Sort by: Name</option>
@@ -114,7 +114,7 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
         .map(
           (game) => `
         <article class="library-card" data-id="${game.id}" style="cursor: pointer;">
-        <div class="library-card__cover" style="background-image: url('${import.meta.env.BASE_URL}${game.coverUrl.replace(/^\.\//, '')}')"></div>
+          <div class="library-card__cover" style="background-image: url('${import.meta.env.BASE_URL}${game.coverUrl.replace(/^\.\//, '')}')"></div>
           <div class="library-card__body">
             <div class="library-card__header">
               <div class="library-card__title-group">
@@ -141,21 +141,20 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
     </div>
 
     <nav class="library__pagination" aria-label="Pagination">
-      <button class="library__page-btn" disabled>‹</button>
+      <button class="library__page-btn" disabled aria-label="Previous page">‹</button>
       <button class="library__page-btn library__page-btn--active">1</button>
       <button class="library__page-btn">2</button>
       <button class="library__page-btn">3</button>
       <button class="library__page-btn">4</button>
-      <button class="library__page-btn">›</button>
+      <button class="library__page-btn" aria-label="Next page">›</button>
     </nav>
   `;
 
-  // Butun kartochkaga va Details tugmasiga bosilganda Modalni ochish
+  
   const cards = container.querySelectorAll<HTMLElement>('.library-card');
   cards.forEach((card) => {
     card.addEventListener('click', () => {
       const gameId = card.getAttribute('data-id');
-
       if (gameId && options.onGameSelect) {
         options.onGameSelect(gameId);
       }
