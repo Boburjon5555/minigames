@@ -3,6 +3,8 @@
 
 .carousel {
   padding-block: var(--space-8);
+  width: 100%;
+  overflow: hidden;
 
   &__inner {
     @include mixins.container;
@@ -47,6 +49,7 @@
     justify-content: center;
     font-size: var(--font-size-lg);
     transition: background-color var(--transition-fast);
+    cursor: pointer;
 
     &:focus-visible {
       @include mixins.focus-ring;
@@ -72,23 +75,27 @@
     }
   }
 
+  
+  &__viewport {
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
   &__track {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     gap: var(--space-4);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: var(--space-2);
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    will-change: transform;
+    padding-block: var(--space-4);
   }
 
   &__card {
     position: relative;
-    scroll-snap-align: start;
     flex: 0 0 auto;
     height: clamp(160px, 40vw, 220px);
     width: calc(clamp(160px, 40vw, 220px) * var(--card-aspect, 0.78));
@@ -96,6 +103,9 @@
     border: 2px solid var(--color-primary);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
+    will-change: transform;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
 
     @include from-tablet {
       height: clamp(200px, 22vw, 260px);
@@ -105,6 +115,13 @@
     @include from-desktop {
       height: clamp(220px, 20vw, 384px);
       width: calc(clamp(220px, 20vw, 384px) * var(--card-aspect, 0.78));
+    }
+
+    
+    &.is-compact {
+      .carousel__card-overlay {
+        display: none !important;
+      }
     }
   }
 
@@ -136,13 +153,16 @@
     flex-direction: column;
     gap: var(--space-1);
     background: linear-gradient(to top, var(--color-scrim) 0%, transparent 100%);
+    pointer-events: none;
   }
 
   &__card-title {
     color: var(--color-text-inverse);
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-sm);
-    @include mixins.line-clamp(2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
   }
 
   &__card-meta {
