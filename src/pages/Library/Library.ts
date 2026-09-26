@@ -1,5 +1,6 @@
 import './Library.scss';
 import type { Game } from '@/types/game';
+import { GameDetailsModal } from '@/components/GameDetails/GameDetails';
 
 interface LibraryPageOptions {
   onGameSelect?: (gameId: string) => void;
@@ -178,11 +179,22 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
       )
       .join('');
 
+  
     const cards = gridElement.querySelectorAll<HTMLElement>('.library-card');
     cards.forEach((card) => {
       card.addEventListener('click', () => {
         const gameId = card.getAttribute('data-id');
-        if (gameId && options.onGameSelect) {
+        if (!gameId) return;
+
+        
+        const selectedGame = mockLibraryGames.find((g) => g.id === gameId);
+        if (selectedGame) {
+          const modal = new GameDetailsModal(selectedGame);
+          document.body.appendChild(modal.element);
+          modal.open();
+        }
+
+        if (options.onGameSelect) {
           options.onGameSelect(gameId);
         }
       });
@@ -204,7 +216,6 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
     renderGames();
   });
 
-  
   const pageBtns = container.querySelectorAll<HTMLButtonElement>('.library__page-btn');
   const prevBtn = pageBtns[0];
   const nextBtn = pageBtns[pageBtns.length - 1];
@@ -249,8 +260,6 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
   });
 
   updatePaginationUI();
-
-
   renderGames();
 
   return container;
