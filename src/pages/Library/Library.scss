@@ -37,11 +37,8 @@
     overflow-x: auto;
     white-space: nowrap;
     padding-bottom: 4px; 
-    
-     
     flex-wrap: nowrap; 
 
-    
     scrollbar-width: none; 
     -ms-overflow-style: none; 
 
@@ -138,15 +135,31 @@
     cursor: pointer;
     transition: all 0.2s ease;
 
+    &:hover:not(:disabled) {
+      background-color: var(--color-footer-icon-bg, #f1f5f9);
+      border-color: var(--color-footer-text, #0f172a);
+    }
+
     &--active {
       background-color: var(--color-footer-text, #0f172a);
       color: #ffffff;
       border-color: var(--color-footer-text, #0f172a);
+
+      &:hover {
+        background-color: var(--color-footer-text, #0f172a);
+      }
     }
 
     &:disabled {
       opacity: 0.4;
       cursor: not-allowed;
+    }
+
+    
+    @media (max-width: 576px) {
+      &:nth-child(5) {
+        display: none;
+      }
     }
   }
 }

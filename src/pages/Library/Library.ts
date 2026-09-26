@@ -204,6 +204,53 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
     renderGames();
   });
 
+  
+  const pageBtns = container.querySelectorAll<HTMLButtonElement>('.library__page-btn');
+  const prevBtn = pageBtns[0];
+  const nextBtn = pageBtns[pageBtns.length - 1];
+  const numberBtns = Array.from(pageBtns).slice(1, -1);
+
+  let currentPage = 1;
+  const totalPages = numberBtns.length;
+
+  function updatePaginationUI(): void {
+    numberBtns.forEach((btn, index) => {
+      const pageNum = index + 1;
+      if (pageNum === currentPage) {
+        btn.classList.add('library__page-btn--active');
+      } else {
+        btn.classList.remove('library__page-btn--active');
+      }
+    });
+
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+  }
+
+  numberBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      currentPage = index + 1;
+      updatePaginationUI();
+    });
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      updatePaginationUI();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      updatePaginationUI();
+    }
+  });
+
+  updatePaginationUI();
+
+
   renderGames();
 
   return container;
