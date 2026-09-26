@@ -13,13 +13,13 @@
   &__title {
     font-size: 2.25rem;
     font-weight: 800;
-    color: var(--color-text, #0f172a);
+    color: var(--color-footer-text, #0f172a);
     margin-bottom: 0.5rem;
   }
 
   &__subtitle {
     font-size: 0.95rem;
-    color: var(--color-text-muted, #64748b);
+    color: var(--color-footer-text-muted, #64748b);
   }
 
   &__toolbar {
@@ -34,31 +34,43 @@
   &__filters {
     display: flex;
     gap: 0.5rem;
-    flex-wrap: wrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px; 
+    flex-wrap: nowrap; 
+
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+
+    &::-webkit-scrollbar {
+      display: none; 
+    }
   }
 
   &__filter-btn {
     @include button-reset;
+    flex-shrink: 0; 
     padding: 0.4rem 0.9rem;
     border: 1px solid var(--color-border, #0f172a);
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
     background-color: transparent;
-    color: var(--color-text, #0f172a);
+    color: var(--color-footer-text, #0f172a);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: #f1f5f9;
+      background-color: var(--color-footer-icon-bg, #f1f5f9);
     }
 
     &--active {
-      background-color: #facc15;
-      border-color: #facc15;
+      background-color: var(--color-accent, #facc15);
+      border-color: var(--color-accent, #facc15);
+      color: var(--color-primary, #0f172a);
 
       &:hover {
-        background-color: #eab308;
+        opacity: 0.9;
       }
     }
   }
@@ -71,8 +83,15 @@
       font-size: 0.8rem;
       font-weight: 600;
       background-color: #ffffff;
+      color: var(--color-footer-text, #0f172a);
       cursor: pointer;
       outline: none;
+      transition: border-color 0.2s ease;
+
+      &:hover,
+      &:focus-visible {
+        border-color: var(--color-accent, #facc15);
+      }
     }
   }
 
@@ -85,6 +104,14 @@
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
     }
+  }
+
+  &__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: 1rem;
+    color: var(--color-footer-text-muted, #64748b);
   }
 
   &__pagination {
@@ -106,16 +133,33 @@
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-footer-icon-bg, #f1f5f9);
+      border-color: var(--color-footer-text, #0f172a);
+    }
 
     &--active {
-      background-color: #0f172a;
+      background-color: var(--color-footer-text, #0f172a);
       color: #ffffff;
-      border-color: #0f172a;
+      border-color: var(--color-footer-text, #0f172a);
+
+      &:hover {
+        background-color: var(--color-footer-text, #0f172a);
+      }
     }
 
     &:disabled {
       opacity: 0.4;
       cursor: not-allowed;
+    }
+
+    
+    @media (max-width: 576px) {
+      &:nth-child(5) {
+        display: none;
+      }
     }
   }
 }
@@ -123,7 +167,7 @@
 .library-card {
   display: flex;
   background-color: #ffffff;
-  border: 2px solid #0f172a;
+  border: 2px solid var(--color-footer-text, #0f172a);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -173,7 +217,7 @@
   &__title {
     font-size: 1.15rem;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--color-footer-text, #0f172a);
     margin: 0;
   }
 
@@ -181,21 +225,21 @@
     font-size: 0.65rem;
     font-weight: 700;
     padding: 0.15rem 0.5rem;
-    border: 1px solid #0f172a;
+    border: 1px solid var(--color-footer-text, #0f172a);
     border-radius: 12px;
     text-transform: capitalize;
-    color: #0f172a;
+    color: var(--color-footer-text, #0f172a);
   }
 
   &__price {
     font-size: 0.95rem;
     font-weight: 800;
-    color: #0284c7;
+    color: var(--color-primary-accent, #0284c7);
   }
 
   &__description {
     font-size: 0.75rem;
-    color: #64748b;
+    color: var(--color-footer-text-muted, #64748b);
     line-height: 1.4;
     margin: 0.75rem 0;
     display: -webkit-box;
@@ -228,12 +272,12 @@
   &__btn-details {
     @include button-reset;
     padding: 0.35rem 0.9rem;
-    background-color: #facc15;
-    border: 1.5px solid #0f172a;
+    background-color: var(--color-accent, #facc15);
+    border: 1.5px solid var(--color-footer-text, #0f172a);
     border-radius: 8px;
     font-size: 0.75rem;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--color-footer-text, #0f172a);
     cursor: pointer;
     transition: transform 0.1s ease;
 
