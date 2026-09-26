@@ -1,11 +1,15 @@
 import './GameDetails.scss';
+import type { Game } from '@/types/game';
 
 export class GameDetailsModal {
   private backdrop: HTMLDivElement;
   private dialog: HTMLDivElement;
   private lastFocusedElement: HTMLElement | null = null;
+  private game: Game;
 
-  constructor() {
+  constructor(game: Game) {
+    this.game = game;
+
     this.backdrop = document.createElement('div');
     this.backdrop.className = 'game-modal-backdrop';
 
@@ -33,32 +37,39 @@ export class GameDetailsModal {
     this.backdrop.classList.remove('is-open');
     document.body.style.overflow = '';
     this.lastFocusedElement?.focus();
+    setTimeout(() => {
+      this.backdrop.remove();
+    }, 200);
   }
 
   private render(): void {
+    const coverUrl = this.game.coverUrl
+      ? `${import.meta.env.BASE_URL}${this.game.coverUrl.replace(/^\.\//, '')}`
+      : 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
+
     this.dialog.innerHTML = `
       <div class="game-card__banner">
-        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" alt="Tukoni: Forest Keepers" />
+        <img src="${coverUrl}" alt="${this.game.title}" />
         <button type="button" class="game-card__close" id="game-card-close" aria-label="Close dialog">✕</button>
       </div>
 
       <div class="game-card__content">
         <div class="game-card__header">
-          <h2 class="game-card__title">Tukoni: Forest Keepers</h2>
+          <h2 class="game-card__title">${this.game.title}</h2>
           <div class="game-card__stats">
-            <span class="game-card__stats-rating">★ 4.9</span>
-            <span class="game-card__stats-likes">♡ 31.2K</span>
+            <span class="game-card__stats-rating">★ ${(this.game.rating || 5.0).toFixed(1)}</span>
+            <span class="game-card__stats-likes">♡ ${this.game.likes || 0}</span>
           </div>
         </div>
 
         <p class="game-card__description">
-          Tukoni: Forest Keepers — a cozy hand-drawn puzzle-adventure. You are Traveller, a little forest spirit on an important mission. Wander storybook meadows, visit mushroom villages, meet adorable inhabitants, solve gentle hand-crafted puzzles, brew herbal teas and help the Tukoni forest prepare peacefully for the coming winter.
+          ${this.game.description}
         </p>
 
         <div class="game-card__info-grid">
           <div class="game-card__info-item">
             <span>Genre</span>
-            <strong>Puzzle</strong>
+            <strong>${this.game.category || 'Casual'}</strong>
           </div>
           <div class="game-card__info-item">
             <span>Players</span>
@@ -70,7 +81,7 @@ export class GameDetailsModal {
           </div>
           <div class="game-card__info-item">
             <span>Price</span>
-            <strong>Free</strong>
+            <strong>${this.game.price || 'Free'}</strong>
           </div>
         </div>
 
@@ -98,16 +109,9 @@ export class GameDetailsModal {
               <span class="game-card__record-item-date">5 days ago</span>
             </div>
           </div>
-          <div class="game-card__record-item">
-            <div class="game-card__record-item-user"><span>🪴</span> HerbalistPath</div>
-            <div>
-              <span class="game-card__record-item-score">308,900 pts</span>
-              <span class="game-card__record-item-date">1 week ago</span>
-            </div>
-          </div>
         </div>
 
-        <div class="game-card__section-title">Comments (2)</div>
+        <div class="game-card__section-title">Comments</div>
         <div class="game-card__comments">
           <div class="game-card__comments-input-group">
             <div class="game-card__comments-avatar">U</div>
@@ -115,22 +119,6 @@ export class GameDetailsModal {
             <button type="button" class="game-card__comments-submit" aria-label="Send">
               <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
-          </div>
-
-          <div class="game-card__comments-list">
-            <div class="game-card__comments-card">
-              <div class="game-card__comments-card-header">
-                <div class="game-card__comments-card-author">
-                  <div class="game-card__comments-avatar" style="background-color: #93c5fd;">F</div>
-                  ForestDweller
-                </div>
-                <span class="game-card__comments-card-date">3 hours ago</span>
-              </div>
-              <p class="game-card__comments-card-text">
-                The hand-drawn art is absolutely magical 🍄 Every location feels like a page from a children's storybook.
-              </p>
-              <button type="button" class="game-card__comments-card-like">♡ 12</button>
-            </div>
           </div>
         </div>
       </div>
