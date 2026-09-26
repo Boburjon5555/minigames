@@ -1,6 +1,6 @@
 import './Library.scss';
-import type { Game } from '@/types/game';
 import { GameDetailsModal } from '@/components/GameDetails/GameDetails';
+import type { Game } from '@/types/game';
 
 interface LibraryPageOptions {
   onGameSelect?: (gameId: string) => void;
