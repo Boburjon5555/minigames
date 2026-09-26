@@ -43,12 +43,17 @@ export function createFooter(): HTMLElement {
 
     <div class="footer__bottom">
       <span class="footer__bottom-item">© ${new Date().getFullYear()} MiniGames. All rights reserved.</span>
-      <span class="footer__bottom-item footer__credit">
-        <span aria-hidden="true">🎓</span> RS School
-      </span>
-      <span class="footer__bottom-item footer__credit">
-        <span aria-hidden="true">&lt;/&gt;</span> @student-nickname
-      </span>
+
+      <a class="footer__bottom-item footer__credit" href="https://rs.school/" target="_blank" rel="noopener noreferrer">
+        <img src="/assets/games/rs-logo.png" alt="RS School Logo" class="footer__rs-logo" />
+        RS School
+      </a>
+
+      <a class="footer__bottom-item footer__credit" href="https://github.com/Boburjon5555" target="_blank" rel="noopener noreferrer">
+        <span class="footer__github-icon" aria-hidden="true">&lt;/&gt;</span>
+        @Boburjon5555
+      </a>
+
       <span class="footer__bottom-item">Designed with love</span>
     </div>
   `;

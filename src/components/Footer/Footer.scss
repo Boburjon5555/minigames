@@ -143,4 +143,42 @@
     align-items: center;
     gap: var(--space-1);
   }
+}   
+
+&__credit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-footer-text-muted);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-footer-text);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+&__rs-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+&__github-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--color-footer-text);
+  color: var(--color-footer-bg);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
 }
