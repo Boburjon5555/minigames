@@ -6,6 +6,7 @@ export class GameDetailsModal {
   private dialog: HTMLDivElement;
   private lastFocusedElement: HTMLElement | null = null;
   private game: Game;
+  private isFavorite: boolean = false;
 
   constructor(game: Game) {
     this.game = game;
@@ -29,17 +30,25 @@ export class GameDetailsModal {
 
   public open(): void {
     this.lastFocusedElement = document.activeElement as HTMLElement | null;
-    this.backdrop.classList.add('is-open');
+    requestAnimationFrame(() => {
+      this.backdrop.classList.add('is-open');
+    });
     document.body.style.overflow = 'hidden';
   }
 
   public close(): void {
+    this.backdrop.classList.add('is-closing');
     this.backdrop.classList.remove('is-open');
     document.body.style.overflow = '';
-    this.lastFocusedElement?.focus();
+    
+    if (this.lastFocusedElement) {
+      this.lastFocusedElement.focus();
+    }
+
     setTimeout(() => {
+      this.backdrop.classList.remove('is-closing');
       this.backdrop.remove();
-    }, 200);
+    }, 300);
   }
 
   private render(): void {
@@ -55,7 +64,10 @@ export class GameDetailsModal {
 
       <div class="game-card__content">
         <div class="game-card__header">
-          <h2 class="game-card__title">${this.game.title}</h2>
+          <div>
+            <h2 class="game-card__title">${this.game.title}</h2>
+            <span class="game-card__badge">${this.game.category || 'Casual'}</span>
+          </div>
           <div class="game-card__stats">
             <span class="game-card__stats-rating">★ ${(this.game.rating || 5.0).toFixed(1)}</span>
             <span class="game-card__stats-likes">♡ ${this.game.likes || 0}</span>
@@ -87,9 +99,9 @@ export class GameDetailsModal {
 
         <div class="game-card__actions">
           <button type="button" class="game-card__btn-play">Play Now</button>
-          <button type="button" class="game-card__btn-fav">
+          <button type="button" class="game-card__btn-fav" id="game-card-fav" aria-label="Add to favorites">
             <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            Add to Favorites
+            <span>Add to Favorites</span>
           </button>
         </div>
 
@@ -126,16 +138,37 @@ export class GameDetailsModal {
   }
 
   private attachEvents(): void {
+    
     this.dialog.querySelector('#game-card-close')?.addEventListener('click', () => this.close());
 
+    
     this.backdrop.addEventListener('click', (event) => {
       if (event.target === this.backdrop) this.close();
     });
 
+    
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && this.backdrop.classList.contains('is-open')) {
         this.close();
       }
+    });
+
+    
+    const favBtn = this.dialog.querySelector<HTMLButtonElement>('#game-card-fav');
+    favBtn?.addEventListener('click', () => {
+      this.isFavorite = !this.isFavorite;
+      favBtn.classList.toggle('is-active', this.isFavorite);
+      
+      const textSpan = favBtn.querySelector('span');
+      if (textSpan) {
+        textSpan.textContent = this.isFavorite ? 'In Favorites' : 'Add to Favorites';
+      }
+    });
+
+    
+    const playBtn = this.dialog.querySelector<HTMLButtonElement>('.game-card__btn-play');
+    playBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
     });
   }
 }
