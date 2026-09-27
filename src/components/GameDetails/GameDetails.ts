@@ -30,6 +30,12 @@ export class GameDetailsModal {
 
   public open(): void {
     this.lastFocusedElement = document.activeElement as HTMLElement | null;
+
+    
+    if (!document.body.contains(this.backdrop)) {
+      document.body.appendChild(this.backdrop);
+    }
+
     requestAnimationFrame(() => {
       this.backdrop.classList.add('is-open');
     });
