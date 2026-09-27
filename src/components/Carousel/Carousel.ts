@@ -13,7 +13,11 @@ function formatCount(value: number): string {
 }
 
 export function createCarousel({ title, games, onGameClick }: CarouselOptions): HTMLElement {
-  const featuredGames = games.filter((g) => g.featured).slice(0, 9);
+  
+  const featuredGames = games.some((g) => g.featured)
+    ? games.filter((g) => g.featured).slice(0, 9)
+    : games.slice(0, 9);
+
   const total = featuredGames.length;
 
   let currentIndex = 0;
@@ -47,19 +51,22 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
 
   const renderCards = (): void => {
     track.innerHTML = '';
-    const loopGames = [...featuredGames, ...featuredGames, ...featuredGames];
+    const loopGames = total > 0 ? [...featuredGames, ...featuredGames, ...featuredGames] : [];
 
     loopGames.forEach((game, index) => {
       let coverUrl = game.coverUrl || '';
       if (coverUrl && !coverUrl.startsWith('http') && !coverUrl.startsWith('data:')) {
         const cleanPath = coverUrl.replace(/^\.?\//, '');
-        coverUrl = `${import.meta.env.BASE_URL}${cleanPath}`;
+        const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+          ? import.meta.env.BASE_URL
+          : `${import.meta.env.BASE_URL}/`;
+        coverUrl = `${baseUrl}${cleanPath}`;
       }
 
       const card = document.createElement('article');
       card.className = 'carousel__card';
       card.setAttribute('data-game-id', game.id);
-      card.setAttribute('data-index', String(index % total));
+      card.setAttribute('data-index', String(index % (total || 1)));
       card.setAttribute('aria-label', game.title);
 
       card.innerHTML = `
@@ -139,7 +146,7 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
   const startAutoplay = (): void => {
     stopAutoplay();
     autoplayTimer = window.setInterval(() => {
-      if (!isInteracting) {
+      if (!isInteracting && total > 0) {
         goToIndex(currentIndex + 1);
       }
     }, 4000);
