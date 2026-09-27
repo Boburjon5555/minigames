@@ -35,30 +35,31 @@ export class GameDetailsModal {
       document.body.appendChild(this.backdrop);
     }
 
+    this.backdrop.classList.remove('is-closing');
+
     requestAnimationFrame(() => {
       this.backdrop.classList.add('is-open');
     });
-    document.body.style.overflow = 'hidden';
 
-    
-    this.backdrop.style.pointerEvents = 'none';
-    setTimeout(() => {
-      this.backdrop.style.pointerEvents = 'auto';
-    }, 100);
+    document.body.style.overflow = 'hidden';
   }
 
   public close(): void {
-    this.backdrop.classList.add('is-closing');
+    if (!this.backdrop.classList.contains('is-open')) return;
+
     this.backdrop.classList.remove('is-open');
-    document.body.style.overflow = '';
-    
-    if (this.lastFocusedElement) {
-      this.lastFocusedElement.focus();
-    }
+    this.backdrop.classList.add('is-closing');
 
     setTimeout(() => {
       this.backdrop.classList.remove('is-closing');
-      this.backdrop.remove();
+      if (document.body.contains(this.backdrop)) {
+        this.backdrop.remove();
+      }
+      document.body.style.overflow = '';
+
+      if (this.lastFocusedElement) {
+        this.lastFocusedElement.focus();
+      }
     }, 300);
   }
 
@@ -70,7 +71,8 @@ export class GameDetailsModal {
       coverUrl = `${import.meta.env.BASE_URL}${cleanPath}`;
     }
 
-    const fallbackImage = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
+    const fallbackImage =
+      'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
     const finalSrc = coverUrl || fallbackImage;
 
     this.dialog.innerHTML = `
@@ -92,7 +94,7 @@ export class GameDetailsModal {
         </div>
 
         <p class="game-card__description">
-          ${this.game.description}
+          ${this.game.description || 'No description available.'}
         </p>
 
         <div class="game-card__info-grid">
@@ -140,7 +142,6 @@ export class GameDetailsModal {
           </div>
         </div>
 
-        <!-- Comments Section (RSS-QS-2-2-6) -->
         <div class="game-card__section-title">Comments</div>
         <div class="game-card__comments">
           <form class="game-card__comments-input-group" id="comment-form">
@@ -169,36 +170,40 @@ export class GameDetailsModal {
   }
 
   private attachEvents(): void {
-
+    // Yopish tugmasi (✕)
     this.dialog.querySelector('#game-card-close')?.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
       this.close();
     });
 
-    
-    this.dialog.addEventListener('click', (e) => {
+    // Modal ichi bosilganda hodisalar tashqariga (backdrop'ga) o'tib ketmasligi uchun
+    this.dialog.addEventListener('pointerdown', (e) => {
       e.stopPropagation();
     });
 
-    
-    this.backdrop.addEventListener('click', (event) => {
+    // Backdrop bosilganda modalni yopish (pointerdown xatoliklarni 100% yo'qotadi)
+    this.backdrop.addEventListener('pointerdown', (event: PointerEvent) => {
       if (event.target === this.backdrop) {
         this.close();
       }
     });
 
-    
-    document.addEventListener('keydown', (event) => {
+    // ESC bosilganda yopish
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Escape' && this.backdrop.classList.contains('is-open')) {
         this.close();
       }
     });
 
+    // Tanlanganlarga (Favorites) qo'shish tugmasi
     const favBtn = this.dialog.querySelector<HTMLButtonElement>('#game-card-fav');
-    favBtn?.addEventListener('click', () => {
+    favBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       this.isFavorite = !this.isFavorite;
       favBtn.classList.toggle('is-active', this.isFavorite);
-      
+
       const textSpan = favBtn.querySelector('span');
       if (textSpan) {
         textSpan.textContent = this.isFavorite ? 'In Favorites' : 'Add to Favorites';
@@ -219,11 +224,13 @@ export class GameDetailsModal {
 
     const likeBtns = this.dialog.querySelectorAll<HTMLButtonElement>('.game-card__comments-card-like');
     likeBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const isActive = btn.classList.toggle('is-active');
         const icon = btn.querySelector('.like-icon');
         const countSpan = btn.querySelector('.like-count');
-        
+
         if (countSpan) {
           let count = parseInt(countSpan.textContent || '0', 10);
           count = isActive ? count + 1 : count - 1;
