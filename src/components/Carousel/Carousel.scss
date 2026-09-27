@@ -187,4 +187,19 @@
     align-items: center;
     gap: var(--space-1);
   }
+}  
+
+
+.carousel__card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+
+.carousel__card--compact {
+  .carousel__card-overlay {
+    display: none !important;
+  }
 }

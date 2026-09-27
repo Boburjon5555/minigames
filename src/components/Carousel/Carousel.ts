@@ -13,11 +13,7 @@ function formatCount(value: number): string {
 }
 
 export function createCarousel({ title, games, onGameClick }: CarouselOptions): HTMLElement {
-  
-  const featuredGames = games.some((g) => g.featured)
-    ? games.filter((g) => g.featured).slice(0, 9)
-    : games.slice(0, 9);
-
+  const featuredGames = games.filter((g) => g.featured).slice(0, 9);
   const total = featuredGames.length;
 
   let currentIndex = 0;
@@ -114,6 +110,13 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
 
       const scale = Math.max(0.85, 1 - distanceFromCenter / 1000);
       card.style.transform = `scale(${scale})`;
+
+      
+      if (rect.width < 288) {
+        card.classList.add('carousel__card--compact');
+      } else {
+        card.classList.remove('carousel__card--compact');
+      }
     });
   };
 
