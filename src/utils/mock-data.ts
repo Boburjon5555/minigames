@@ -9,7 +9,8 @@ export const featuredGames: Game[] = [
     rating: 4.7,
     likes: 41_300,
     coverAspectRatio: 0.32,
-    showInfo: false,
+    showInfo: false, 
+    featured: true,
   },
   {
     id: 'g1',
@@ -18,7 +19,8 @@ export const featuredGames: Game[] = [
     coverUrl: 'assets/games/islanders.png',
     rating: 4.9,
     likes: 54_200,
-    coverAspectRatio: 0.89,
+    coverAspectRatio: 0.89, 
+    featured: true,
   },
   {
     id: 'g2',
@@ -38,6 +40,7 @@ export const featuredGames: Game[] = [
     rating: 4.9,
     likes: 32_400,
     coverAspectRatio: 0.89,
+    featured: true,
   },
   {
     id: 'g4',
@@ -48,6 +51,7 @@ export const featuredGames: Game[] = [
     likes: 23_600,
     coverAspectRatio: 0.32,
     showInfo: false,
+    featured: true,
   },
 ];
 
