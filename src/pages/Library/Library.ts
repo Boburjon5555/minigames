@@ -16,7 +16,7 @@ const mockLibraryGames: Game[] = [
     likes: 28700,
     description:
       'Cozy Italian Vacation Cafe 🍕 No timers, No stress 🤝 cook traditional dishes 🍝 upgrade and customize 🏪 relax and grow your dream cafe',
-    coverUrl: './assets/games/Game-Screenshot.png',
+    coverUrl: 'assets/games/Game-Screenshot.png',
   },
   {
     id: 'winter-burrow',
@@ -27,7 +27,7 @@ const mockLibraryGames: Game[] = [
     likes: 32400,
     description:
       'A cozy woodland survival game about a mouse restoring their childhood burrow. Explore, gather resources, craft, knit warm sweaters, bake pies and meet the locals.',
-    coverUrl: './assets/games/Game-Screenshot(1).png',
+    coverUrl: 'assets/games/Game-Screenshot(1).png',
   },
   {
     id: 'shelve-potions',
@@ -38,7 +38,7 @@ const mockLibraryGames: Game[] = [
     likes: 21300,
     description:
       'Organize 2000+ potions on shelves after the witch’s cats have knocked them over, using clues around an enchanted cellar.',
-    coverUrl: './assets/games/Game-Screenshot(2).png',
+    coverUrl: 'assets/games/Game-Screenshot(2).png',
   },
   {
     id: 'heartopia',
@@ -49,7 +49,7 @@ const mockLibraryGames: Game[] = [
     likes: 46800,
     description:
       'A multiplayer life simulation game crafted for creativity, freedom, and peace. Build your dream home, explore hobbies, and forge warm connections.',
-    coverUrl: './assets/games/Game-Screenshot(3).png',
+    coverUrl: 'assets/games/Game-Screenshot(3).png',
   },
   {
     id: 'palia',
@@ -60,7 +60,7 @@ const mockLibraryGames: Game[] = [
     likes: 89500,
     description:
       'A free-to-play fantasy life sim adventure where you can craft, explore, and create the life and home of your dreams in a vibrant world.',
-    coverUrl: './assets/games/Game-Screenshot(4).png',
+    coverUrl: 'assets/games/Game-Screenshot(4).png',
   },
   {
     id: 'cat-mail',
@@ -71,13 +71,26 @@ const mockLibraryGames: Game[] = [
     likes: 38200,
     description:
       'Run a cozy cat post office. Sort and deliver parcels from the daily boat. At night, the moon reveals hidden truths about packages.',
-    coverUrl: './assets/games/Game-Screenshot(5).png',
+    coverUrl: 'assets/games/Game-Screenshot(5).png',
   },
 ];
 
 function formatCount(value: number): string {
   if (value >= 1000) return `${(value / 1000).toFixed(1)}K`;
   return String(value);
+}
+
+// Rasm manzilini xavfsiz shakllantirish uchun funksiya
+function getImageUrl(path: string): string {
+  if (!path) return 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
+  if (path.startsWith('http') || path.startsWith('data:')) return path;
+
+  const cleanPath = path.replace(/^\.?\//, '');
+  const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+
+  return `${baseUrl}${cleanPath}`;
 }
 
 export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement {
@@ -151,10 +164,11 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
     }
 
     gridElement.innerHTML = filtered
-      .map(
-        (game) => `
+      .map((game) => {
+        const fullCoverUrl = getImageUrl(game.coverUrl);
+        return `
         <article class="library-card" data-id="${game.id}" style="cursor: pointer;">
-          <div class="library-card__cover" style="background-image: url('${import.meta.env.BASE_URL}${game.coverUrl.replace(/^\.\//, '')}')"></div>
+          <div class="library-card__cover" style="background-image: url('${fullCoverUrl}')"></div>
           <div class="library-card__body">
             <div class="library-card__header">
               <div class="library-card__title-group">
@@ -175,18 +189,16 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
             </div>
           </div>
         </article>
-      `,
-      )
+      `;
+      })
       .join('');
 
-  
     const cards = gridElement.querySelectorAll<HTMLElement>('.library-card');
     cards.forEach((card) => {
       card.addEventListener('click', () => {
         const gameId = card.getAttribute('data-id');
         if (!gameId) return;
 
-        
         const selectedGame = mockLibraryGames.find((g) => g.id === gameId);
         if (selectedGame) {
           const modal = new GameDetailsModal(selectedGame);
