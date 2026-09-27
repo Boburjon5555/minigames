@@ -80,7 +80,6 @@ function formatCount(value: number): string {
   return String(value);
 }
 
-// Rasm manzilini xavfsiz shakllantirish uchun funksiya
 function getImageUrl(path: string): string {
   if (!path) return 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
   if (path.startsWith('http') || path.startsWith('data:')) return path;
@@ -195,14 +194,18 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
 
     const cards = gridElement.querySelectorAll<HTMLElement>('.library-card');
     cards.forEach((card) => {
-      card.addEventListener('click', () => {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
         const gameId = card.getAttribute('data-id');
         if (!gameId) return;
 
         const selectedGame = mockLibraryGames.find((g) => g.id === gameId);
         if (selectedGame) {
+        
+          document.querySelectorAll('.game-modal-backdrop').forEach((el) => el.remove());
+
+          
           const modal = new GameDetailsModal(selectedGame);
-          document.body.appendChild(modal.element);
           modal.open();
         }
 
