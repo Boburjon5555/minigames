@@ -203,3 +203,13 @@
     display: none !important;
   }
 }
+
+.carousel__card {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+
+  * {
+    pointer-events: none;
+  }
+}

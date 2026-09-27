@@ -76,12 +76,11 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
         </div>
       `;
 
-      card.addEventListener('click', (e) => {
-        if (isDragging) {
-          e.preventDefault();
-          return;
-        }
-        if (onGameClick) {
+      
+      card.addEventListener('pointerup', (e: PointerEvent) => {
+        if (isDragging) return;
+
+        if (e.button === 0 && onGameClick) {
           onGameClick(game);
         }
       });
