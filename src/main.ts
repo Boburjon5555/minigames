@@ -22,9 +22,18 @@ function createPlaceholderPage(title: string): HTMLElement {
 }
 
 function openGameDetails(gameId: string): void {
-  const selectedGame = featuredGames.find((g) => g.id === gameId) || featuredGames[0];
-  const modal = new GameDetailsModal(selectedGame as Game);
-  modal.open();
+  
+  document.querySelectorAll('.game-modal-backdrop').forEach((el) => el.remove());
+
+  
+  const allGames = [...featuredGames];
+  const selectedGame = allGames.find((g) => g.id === gameId);
+
+  
+  if (selectedGame) {
+    const modal = new GameDetailsModal(selectedGame as Game);
+    modal.open();
+  }
 }
 
 function bootstrap(): void {
@@ -53,9 +62,7 @@ function bootstrap(): void {
 
   // 2. Library Sahifasi
   router.register('/library', () => {
-    const libraryPage = createLibraryPage({
-      onGameSelect: (gameId) => openGameDetails(gameId),
-    });
+    const libraryPage = createLibraryPage();
     pageOutlet.replaceChildren(libraryPage);
   });
 
@@ -81,7 +88,6 @@ function bootstrap(): void {
 }
 
 document.addEventListener('DOMContentLoaded', bootstrap);
-
 
 window.addEventListener('app:open-game', (e: Event) => {
   const customEvent = e as CustomEvent<{ gameId: string }>;

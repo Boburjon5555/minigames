@@ -196,6 +196,8 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
     cards.forEach((card) => {
       card.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation(); 
+
         const gameId = card.getAttribute('data-id');
         if (!gameId) return;
 
@@ -204,7 +206,6 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
         
           document.querySelectorAll('.game-modal-backdrop').forEach((el) => el.remove());
 
-          
           const modal = new GameDetailsModal(selectedGame);
           modal.open();
         }
@@ -217,7 +218,8 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
   }
 
   filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       filterBtns.forEach((b) => b.classList.remove('library__filter-btn--active'));
       btn.classList.add('library__filter-btn--active');
 
@@ -254,20 +256,23 @@ export function createLibraryPage(options: LibraryPageOptions = {}): HTMLElement
   }
 
   numberBtns.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       currentPage = index + 1;
       updatePaginationUI();
     });
   });
 
-  prevBtn.addEventListener('click', () => {
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (currentPage > 1) {
       currentPage--;
       updatePaginationUI();
     }
   });
 
-  nextBtn.addEventListener('click', () => {
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (currentPage < totalPages) {
       currentPage++;
       updatePaginationUI();
