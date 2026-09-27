@@ -81,3 +81,11 @@ function bootstrap(): void {
 }
 
 document.addEventListener('DOMContentLoaded', bootstrap);
+
+
+window.addEventListener('app:open-game', (e: Event) => {
+  const customEvent = e as CustomEvent<{ gameId: string }>;
+  if (customEvent.detail && customEvent.detail.gameId) {
+    openGameDetails(customEvent.detail.gameId);
+  }
+});

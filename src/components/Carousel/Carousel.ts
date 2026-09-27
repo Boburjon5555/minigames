@@ -75,7 +75,16 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
           </div>
         </div>
       `;
+       
+      card.onclick = () => {
+        window.dispatchEvent(
+          new CustomEvent('app:open-game', {
+            detail: { gameId: game.id },
+          })
+        );
+      };
 
+      track.appendChild(card);
       
       card.addEventListener('pointerup', (e: PointerEvent) => {
         if (isDragging) return;
