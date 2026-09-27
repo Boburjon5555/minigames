@@ -76,8 +76,12 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
         </div>
       `;
 
-      card.addEventListener('click', () => {
-        if (!isDragging && onGameClick) {
+      card.addEventListener('click', (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          return;
+        }
+        if (onGameClick) {
           onGameClick(game);
         }
       });
@@ -111,7 +115,6 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
       const scale = Math.max(0.85, 1 - distanceFromCenter / 1000);
       card.style.transform = `scale(${scale})`;
 
-      
       if (rect.width < 288) {
         card.classList.add('carousel__card--compact');
       } else {
@@ -182,9 +185,9 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
   const handlePointerMove = (e: MouseEvent | TouchEvent): void => {
     if (!isInteracting) return;
     const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const diffX = currentX - startX;
+    const diffX = Math.abs(currentX - startX);
 
-    if (Math.abs(diffX) > 5) {
+    if (diffX > 10) {
       isDragging = true;
     }
   };
@@ -203,6 +206,10 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
         goToIndex(currentIndex - 1);
       }
     }
+
+    setTimeout(() => {
+      isDragging = false;
+    }, 50);
 
     startAutoplay();
   };
