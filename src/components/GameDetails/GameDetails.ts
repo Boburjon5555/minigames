@@ -31,14 +31,17 @@ export class GameDetailsModal {
   public open(): void {
     this.lastFocusedElement = document.activeElement as HTMLElement | null;
 
-    
     if (!document.body.contains(this.backdrop)) {
       document.body.appendChild(this.backdrop);
     }
 
-    requestAnimationFrame(() => {
-      this.backdrop.classList.add('is-open');
-    });
+  
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        this.backdrop.classList.add('is-open');
+      });
+    }, 10);
+
     document.body.style.overflow = 'hidden';
   }
 
@@ -167,7 +170,10 @@ export class GameDetailsModal {
     this.dialog.querySelector('#game-card-close')?.addEventListener('click', () => this.close());
 
     this.backdrop.addEventListener('click', (event) => {
-      if (event.target === this.backdrop) this.close();
+  
+      if (event.target === this.backdrop && this.backdrop.classList.contains('is-open')) {
+        this.close();
+      }
     });
 
     document.addEventListener('keydown', (event) => {
