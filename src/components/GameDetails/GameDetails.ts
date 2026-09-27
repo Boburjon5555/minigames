@@ -35,13 +35,16 @@ export class GameDetailsModal {
       document.body.appendChild(this.backdrop);
     }
 
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        this.backdrop.classList.add('is-open');
-      });
-    }, 10);
-
+    requestAnimationFrame(() => {
+      this.backdrop.classList.add('is-open');
+    });
     document.body.style.overflow = 'hidden';
+
+    
+    this.backdrop.style.pointerEvents = 'none';
+    setTimeout(() => {
+      this.backdrop.style.pointerEvents = 'auto';
+    }, 100);
   }
 
   public close(): void {
@@ -166,21 +169,25 @@ export class GameDetailsModal {
   }
 
   private attachEvents(): void {
+
     this.dialog.querySelector('#game-card-close')?.addEventListener('click', (e) => {
       e.stopPropagation();
       this.close();
     });
 
+    
     this.dialog.addEventListener('click', (e) => {
       e.stopPropagation();
     });
 
-    this.backdrop.addEventListener('mousedown', (event) => {
+    
+    this.backdrop.addEventListener('click', (event) => {
       if (event.target === this.backdrop) {
         this.close();
       }
     });
 
+    
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && this.backdrop.classList.contains('is-open')) {
         this.close();
