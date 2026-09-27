@@ -75,23 +75,22 @@ export function createCarousel({ title, games, onGameClick }: CarouselOptions): 
           </div>
         </div>
       `;
-       
-      card.onclick = () => {
+
+      
+      card.addEventListener('click', (e: MouseEvent) => {
+        e.stopPropagation();
+
+        if (isDragging) return;
+
+        if (onGameClick) {
+          onGameClick(game);
+        }
+
         window.dispatchEvent(
           new CustomEvent('app:open-game', {
             detail: { gameId: game.id },
           })
         );
-      };
-
-      track.appendChild(card);
-      
-      card.addEventListener('pointerup', (e: PointerEvent) => {
-        if (isDragging) return;
-
-        if (e.button === 0 && onGameClick) {
-          onGameClick(game);
-        }
       });
 
       track.appendChild(card);
