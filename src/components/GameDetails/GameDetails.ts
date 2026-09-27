@@ -52,13 +52,19 @@ export class GameDetailsModal {
   }
 
   private render(): void {
-    const coverUrl = this.game.coverUrl
-      ? `${import.meta.env.BASE_URL}${this.game.coverUrl.replace(/^\.\//, '')}`
-      : 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
+    let coverUrl = this.game.coverUrl || '';
+
+    if (coverUrl && !coverUrl.startsWith('http') && !coverUrl.startsWith('data:')) {
+      const cleanPath = coverUrl.replace(/^\.?\//, '');
+      coverUrl = `${import.meta.env.BASE_URL}${cleanPath}`;
+    }
+
+    const fallbackImage = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
+    const finalSrc = coverUrl || fallbackImage;
 
     this.dialog.innerHTML = `
       <div class="game-card__banner">
-        <img src="${coverUrl}" alt="${this.game.title}" />
+        <img src="${finalSrc}" alt="${this.game.title}" onerror="this.onerror=null;this.src='${fallbackImage}';" />
         <button type="button" class="game-card__close" id="game-card-close" aria-label="Close dialog">✕</button>
       </div>
 
@@ -152,10 +158,8 @@ export class GameDetailsModal {
   }
 
   private attachEvents(): void {
-    
     this.dialog.querySelector('#game-card-close')?.addEventListener('click', () => this.close());
 
-    
     this.backdrop.addEventListener('click', (event) => {
       if (event.target === this.backdrop) this.close();
     });
@@ -166,7 +170,6 @@ export class GameDetailsModal {
       }
     });
 
-    
     const favBtn = this.dialog.querySelector<HTMLButtonElement>('#game-card-fav');
     favBtn?.addEventListener('click', () => {
       this.isFavorite = !this.isFavorite;
@@ -178,22 +181,18 @@ export class GameDetailsModal {
       }
     });
 
-    
     const playBtn = this.dialog.querySelector<HTMLButtonElement>('.game-card__btn-play');
     playBtn?.addEventListener('click', (e) => e.preventDefault());
 
-    
     const commentForm = this.dialog.querySelector<HTMLFormElement>('#comment-form');
     commentForm?.addEventListener('submit', (e) => e.preventDefault());
 
-    
     const textarea = this.dialog.querySelector<HTMLTextAreaElement>('#comment-textarea');
     textarea?.addEventListener('input', () => {
       textarea.style.height = 'auto';
       textarea.style.height = `${Math.min(textarea.scrollHeight, 88)}px`;
     });
 
-    
     const likeBtns = this.dialog.querySelectorAll<HTMLButtonElement>('.game-card__comments-card-like');
     likeBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
