@@ -35,7 +35,6 @@ export class GameDetailsModal {
       document.body.appendChild(this.backdrop);
     }
 
-  
     setTimeout(() => {
       requestAnimationFrame(() => {
         this.backdrop.classList.add('is-open');
@@ -167,11 +166,17 @@ export class GameDetailsModal {
   }
 
   private attachEvents(): void {
-    this.dialog.querySelector('#game-card-close')?.addEventListener('click', () => this.close());
+    this.dialog.querySelector('#game-card-close')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.close();
+    });
 
-    this.backdrop.addEventListener('click', (event) => {
-  
-      if (event.target === this.backdrop && this.backdrop.classList.contains('is-open')) {
+    this.dialog.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    this.backdrop.addEventListener('mousedown', (event) => {
+      if (event.target === this.backdrop) {
         this.close();
       }
     });
