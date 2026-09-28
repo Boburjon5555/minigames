@@ -26,6 +26,15 @@
       opacity: 1;
     }
   }
+
+  &.is-closing {
+    opacity: 0;
+
+    .game-card {
+      transform: translateY(24px);
+      opacity: 0;
+    }
+  }
 }
 
 .game-card {
@@ -72,10 +81,11 @@
     cursor: pointer;
     font-size: 1.1rem;
     color: #1e293b;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease;
 
     &:hover {
       transform: scale(1.08);
+      background-color: #ffffff;
     }
   }
 
@@ -86,13 +96,25 @@
   &__header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 0.75rem;
   }
 
   &__title {
     font-size: 1.4rem;
     font-weight: 800;
+    line-height: 1.2;
+  }
+
+  &__badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-primary, #3b82f6);
+    background-color: rgba(59, 130, 246, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm, 4px);
+    margin-top: 0.25rem;
   }
 
   &__stats {
@@ -130,21 +152,10 @@
     gap: 0.5rem;
     margin-bottom: 1.25rem;
 
-    // @include to-tablet o'rniga:
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
     }
   }
-  /* &__info-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-    margin-bottom: 1.25rem;
-
-    @include to-tablet {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  } */
 
   &__info-item {
     border: 1px solid var(--color-border, #e2e8f0);
@@ -176,6 +187,13 @@
     flex: 1;
     font-weight: 700;
     padding: 0.75rem;
+    border-radius: var(--radius-sm, 8px);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 
   &__btn-fav {
@@ -190,11 +208,31 @@
     background: transparent;
     font-size: 0.8rem;
     font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
 
     svg {
       width: 16px;
       height: 16px;
-      fill: currentColor;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      transition: fill 0.2s ease, stroke 0.2s ease;
+    }
+
+    &.is-active {
+      background-color: rgba(239, 68, 68, 0.1);
+      border-color: #ef4444;
+      color: #ef4444;
+
+      svg {
+        fill: #ef4444;
+        stroke: #ef4444;
+      }
+    }
+
+    &:hover:not(.is-active) {
+      background-color: var(--color-bg, #f8fafc);
     }
   }
 
@@ -244,6 +282,7 @@
   &__comments {
     &-input-group {
       display: flex;
+      align-items: flex-start;
       gap: 0.5rem;
       margin-bottom: 1rem;
     }
@@ -259,6 +298,7 @@
       font-weight: 700;
       font-size: 0.75rem;
       flex-shrink: 0;
+      margin-top: 2px;
     }
 
     &-input {
@@ -270,6 +310,16 @@
       outline: none;
       background-color: var(--color-bg, #ffffff);
       color: var(--color-text, #1e293b);
+      resize: none;
+      min-height: 36px;
+      max-height: 88px;
+      overflow-y: auto;
+      font-family: inherit;
+      line-height: 1.4;
+
+      &:focus {
+        border-color: var(--color-primary, #3b82f6);
+      }
     }
 
     &-submit {
@@ -277,10 +327,13 @@
       background-color: var(--color-surface-alt, #1e1b4b);
       color: #ffffff;
       border-radius: var(--radius-sm, 8px);
+      height: 36px;
       padding: 0 0.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
 
       svg {
         width: 14px;
@@ -330,10 +383,27 @@
       &-like {
         @include button-reset;
         color: var(--color-text-muted, #64748b);
-        font-size: 0.65rem;
-        display: flex;
+        font-size: 0.7rem;
+        display: inline-flex;
         align-items: center;
         gap: 0.25rem;
+        cursor: pointer;
+        padding: 0.2rem 0.4rem;
+        border-radius: var(--radius-sm, 4px);
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: var(--color-bg, #f8fafc);
+        }
+
+        &.is-active {
+          color: #ef4444;
+          background-color: rgba(239, 68, 68, 0.1);
+
+          .like-icon {
+            color: #ef4444;
+          }
+        }
       }
     }
   }

@@ -6,6 +6,8 @@ import { createHeader } from '@/components/Header/Header';
 import { createHomePage } from '@/pages/Home/Home';
 import { createLibraryPage } from '@/pages/Library/Library';
 import { Router } from '@/router/router';
+import type { Game } from '@/types/game';
+import { featuredGames } from '@/utils/mock-data';
 
 function createPlaceholderPage(title: string): HTMLElement {
   const container = document.createElement('div');
@@ -19,12 +21,26 @@ function createPlaceholderPage(title: string): HTMLElement {
   return container;
 }
 
+function openGameDetails(gameId: string): void {
+  
+  document.querySelectorAll('.game-modal-backdrop').forEach((el) => el.remove());
+
+  
+  const allGames = [...featuredGames];
+  const selectedGame = allGames.find((g) => g.id === gameId);
+
+  
+  if (selectedGame) {
+    const modal = new GameDetailsModal(selectedGame as Game);
+    modal.open();
+  }
+}
+
 function bootstrap(): void {
   const root = document.getElementById('app');
   if (!root) throw new Error('Root #app element not found.');
 
   const authDialog = new AuthDialog();
-  const gameDetailsModal = new GameDetailsModal();
 
   const header = createHeader({ onAuthOpen: (mode) => authDialog.open(mode) });
   const footer = createFooter();
@@ -32,23 +48,21 @@ function bootstrap(): void {
   const pageOutlet = document.createElement('div');
   pageOutlet.className = 'page-outlet';
 
-  root.append(header, pageOutlet, footer, authDialog.element, gameDetailsModal.element);
+  root.append(header, pageOutlet, footer, authDialog.element);
 
   const router = new Router();
 
   // 1. Home Sahifasi
   router.register('/', () => {
     const homePage = createHomePage({
-      onGameSelect: () => gameDetailsModal.open(),
+      onGameSelect: (gameId) => openGameDetails(gameId),
     });
     pageOutlet.replaceChildren(homePage);
   });
 
   // 2. Library Sahifasi
   router.register('/library', () => {
-    const libraryPage = createLibraryPage({
-      onGameSelect: () => gameDetailsModal.open(),
-    });
+    const libraryPage = createLibraryPage();
     pageOutlet.replaceChildren(libraryPage);
   });
 
@@ -65,7 +79,7 @@ function bootstrap(): void {
   // Topilmagan sahifa (404) uchun Home sahifasini ko'rsatish
   router.notFound(() => {
     const homePage = createHomePage({
-      onGameSelect: () => gameDetailsModal.open(),
+      onGameSelect: (gameId) => openGameDetails(gameId),
     });
     pageOutlet.replaceChildren(homePage);
   });
@@ -74,3 +88,10 @@ function bootstrap(): void {
 }
 
 document.addEventListener('DOMContentLoaded', bootstrap);
+
+window.addEventListener('app:open-game', (e: Event) => {
+  const customEvent = e as CustomEvent<{ gameId: string }>;
+  if (customEvent.detail && customEvent.detail.gameId) {
+    openGameDetails(customEvent.detail.gameId);
+  }
+});

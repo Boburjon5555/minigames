@@ -2,6 +2,7 @@ import { createCarousel } from '@/components/Carousel/Carousel';
 import { createDeveloperCta } from '@/components/DeveloperCta/DeveloperCta';
 import { createHero } from '@/components/Hero/Hero';
 import { createLeaderboard } from '@/components/Leaderboard/Leaderboard';
+import type { Game } from '@/types/game';
 import { featuredGames, leaderboard } from '@/utils/mock-data';
 
 interface HomePageOptions {
@@ -15,9 +16,13 @@ export function createHomePage(options: HomePageOptions = {}): HTMLElement {
   main.append(
     createHero(),
     createCarousel({
-      title: 'New Games',
+      title: 'Featured Games',
       games: featuredGames,
-      onGameClick: options.onGameSelect,
+      onGameClick: (game: Game) => {
+        if (options.onGameSelect) {
+          options.onGameSelect(game.id);
+        }
+      },
     }),
     createLeaderboard({ entries: leaderboard }),
     createDeveloperCta(),
